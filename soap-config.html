@@ -1,0 +1,54 @@
+<script type="text/javascript">
+    RED.nodes.registerType('soap-config', {
+        category: 'config',
+        defaults: {
+            wsdl: {value: "", required: true},
+            auth: {value: 0, required: true, validate: RED.validators.number()},
+            user: {value: "", required: false},
+            pass: {value: "", required: false},
+            key:  {value: "", required: false},
+            cert: {value: "", required: false},
+            token: {value: "", required: false}
+        },
+        label: function () {
+            return this.wsdl;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="soap-config">
+    <div class="form-row">
+        <label for="node-config-input-wsdl"><i class="fa fa-globe"></i> WSDL</label>
+        <input type="text" id="node-config-input-wsdl">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-auth"><i class="fa fa-unlock"></i> Auth</label>
+        <select id="node-config-input-auth">
+            <option value="0">None</option>
+            <option value="1">Basic Auth</option>
+            <option value="2">Client Certificate</option>
+            <option value="3">WS-Security</option>
+            <option value="4">Bearer Token</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-user"><i class="fa fa-user"></i> Username</label>
+        <input type="text" id="node-config-input-user">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-pass"><i class="fa fa-lock"></i> Password</label>
+        <input type="password" id="node-config-input-pass">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-key"><i class="fa fa-file"></i> Client Key</label>
+        <input type="text" id="node-config-input-key">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-cert"><i class="fa fa-file"></i> Client Certificate</label>
+        <input type="text" id="node-config-input-cert">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-token"><i class="fa fa-key"></i> Token</label>
+        <input type="text" id="node-config-input-token">
+    </div>
+</script>

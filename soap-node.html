@@ -1,0 +1,42 @@
+<script type="text/javascript">
+    RED.nodes.registerType('soap request', {
+        category: "function",
+        icon: "timer.png",
+        color: "#a6bbcf",
+        inputs: 1,
+        outputs: 1,
+        defaults: {
+            name: { value: "" },
+            topic: { value: "" },
+            wsdl: {value: "", type: "soap-config"},
+            method: {value: "", required: true}
+        },
+        label: function () {
+            return this.name || "SOAP"
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="soap request">
+    <div class="form-row">
+        <label for="node-input-wsdl"><i class="fa fa-globe"></i> WSDL</label>
+        <input type="text" id="node-input-wsdl" placeholder="WSDL">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="icon-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-method"><i class="icon-tag"></i> Method</label>
+        <input type="text" id="node-input-method" placeholder="CRON">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="soap request">
+    <p>Call SOAP Service</p>
+    <b>msg.payload</b>. Receive parameters to call service on payload and response parameters is saved on payload.</p>
+</script>
