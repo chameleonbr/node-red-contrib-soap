@@ -16,16 +16,16 @@ module.exports = function (RED) {
                         throw new Error("WSDL Config Error: " + err);
                     }
                     switch (node.server.auth) {
-                        case 1:
+                        case '1':
                             client.setSecurity(new soap.BasicAuthSecurity(node.server.user, node.server.pass));
                             break;
-                        case 2:
+                        case '2':
                             client.setSecurity(new soap.ClientSSLSecurity(node.server.key, node.server.cert, {}));
                             break;
-                        case 3:
+                        case '3':
                             client.setSecurity(new soap.WSSecurity(node.server.user, node.server.pass));
                             break;
-                        case 4:
+                        case '4':
                             client.setSecurity(new soap.BearerSecurity(node.server.token));
                             break;
                     }
