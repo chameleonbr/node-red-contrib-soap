@@ -29,18 +29,22 @@ module.exports = function (RED) {
                             client.setSecurity(new soap.BearerSecurity(node.server.token));
                             break;
                     }
-                    node.status({fill: "green", shape: "dot", text: "SOAP Request..."});
+                    node.status({ fill: "green", shape: "dot", text: "SOAP Request..." });
                     client[node.method](msg.payload, function (err, result) {
                         if (err) {
-                            throw new Error("Service Call Error: " + err);
+                            node.status({ fill: "red", shape: "dot", text: "Service Call Error: " + err });
+                            node.error("Service Call Error: " + err);
+                            msg.payload = "Soap Module Service call error : " + err;
+                            node.send(msg);
                         }
                         node.status({});
-                        node.send({payload: result});
+                        msg.payload = result;
+                        node.send(msg);
                     });
                 });
             });
         } catch (err) {
-            node.status({fill: "red", shape: "dot", text: err.message});
+            node.status({ fill: "red", shape: "dot", text: err.message });
             node.error(err.message);
         }
     }
