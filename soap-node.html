@@ -37,6 +37,18 @@
 </script>
 
 <script type="text/x-red" data-help-name="soap request">
-    <p>Call SOAP Service</p>
-    <b>msg.payload</b>. Receive parameters to call service on payload and response parameters is saved on payload.</p>
+    <p>Node-red nodes that allow users to send SOAP request.</p>
+    <p>To set up SOAP request, create a new soap config </p>
+
+    <p>In the SOAP request config tab, enter the valid method name in *Method* field. Having an invalid method name will return error.</p>
+    <p>You can also feed in parameters and overwrite configs with an injected msg: </p>
+    <p>
+        <ul>
+            <li>You can have <b>msg.server</b> to overwrite the WSDL address. This only works with WSDL server with no authentication method.</li>
+            <li>You can have <b>msg.options</b> to add in options to the SOAP request.</li>
+            <li>You can have <b>msg.headers</b> to add in headers for the SOAP request.</li>
+            <li>You can feed in <b>msg.payload.&lt;parameters&gt;</b> to feed in the parameters you need.</li>
+
+        </ul>
+    </P>
 </script>

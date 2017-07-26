@@ -1,6 +1,6 @@
 {
     "name": "node-red-contrib-soap",
-    "version": "0.0.3",
+    "version": "0.1.0",
     "description": "SOAP Client for Node Red",
     "main": "index.js",
     "scripts": {
@@ -25,6 +25,12 @@
     "author": {
         "name": "Andre Alexandre Avila"
     },
+    "contributors": [
+        {
+            "name": "Michael Qiu",
+            "email": "mqiu@sensetecnic.com"
+        }
+    ],
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/chameleonbr/node-red-contrib-soap/issues"
@@ -37,6 +43,10 @@
         {
             "name": "chameleonbr",
             "email": "chameleonbr@gmail.com"
+        },
+        {
+            "name": "Michael Qiu",
+            "email": "mqiu@sensetecnic.com"
         }
     ]
 }

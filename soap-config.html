@@ -3,7 +3,7 @@
         category: 'config',
         defaults: {
             wsdl: {value: "", required: true},
-            auth: {value: 0, required: true, validate: RED.validators.number()},
+            auth: {value: "0", required: true},
             user: {value: "", required: false},
             pass: {value: "", required: false},
             key:  {value: "", required: false},
@@ -23,7 +23,7 @@
     </div>
     <div class="form-row">
         <label for="node-config-input-auth"><i class="fa fa-unlock"></i> Auth</label>
-        <select id="node-config-input-auth">
+        <select type="text" id="node-config-input-auth">
             <option value="0">None</option>
             <option value="1">Basic Auth</option>
             <option value="2">Client Certificate</option>
@@ -51,4 +51,16 @@
         <label for="node-config-input-token"><i class="fa fa-key"></i> Token</label>
         <input type="text" id="node-config-input-token">
     </div>
+</script>
+
+<script type="text/x-red" data-help-name="soap-config">
+    <p>Create SOAP config</p>
+    <p>To set up SOAP request, create a new soap config:</p> 
+    <p>
+        <ul>
+            <li>Enter the WSDL address to the <i>WSDL</i> field. </li>
+            <li> Select <i>Auth</i> method, the default would be set to None.</li>
+            <li> Fill in <i>Username</i>, <i>Password</i>, <i>Client Key</i>, <i>Client Certificate</i>, <i>Token</i> if needed. </li>
+        </ul>
+    </p>
 </script>
