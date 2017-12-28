@@ -31,7 +31,6 @@ module.exports = function (RED) {
                             client.setSecurity(new soap.BasicAuthSecurity(server.user, server.pass));
                             break;
                         case '2': {
-                            
                             if (typeof server.key === 'string'
                                 && typeof server.cert === 'string'
                                 && server.key.startsWith("-----BEGIN")
