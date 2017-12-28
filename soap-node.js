@@ -37,7 +37,6 @@ module.exports = function (RED) {
                                 && server.key.startsWith("-----BEGIN")
                                 && server.cert.startsWith("-----BEGIN")) {
                                 
-                                server.key = new NodeRSA(server.key);
                                 var keyBuffer = Buffer.from(server.key, 'utf-8');
                                 var certBuffer = Buffer.from(server.cert, 'utf-8');
                                 
