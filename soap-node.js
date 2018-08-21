@@ -51,7 +51,8 @@ module.exports = function (RED) {
                                 return;
                         }
                             node.status({fill:"green", shape:"dot", text:"SOAP result received"});
-                            node.send({payload: result});
+                            msg.payload = result;
+                            node.send(msg);
                     });
                     } else {
                         node.status({fill:"red", shape:"dot", text:"Method does not exist"});
