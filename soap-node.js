@@ -47,8 +47,8 @@ module.exports = function (RED) {
                     client[node.method](msg.payload, function (err, result) {
                         if (err) {
                             node.status({ fill: "red", shape: "dot", text: "Service Call Error: " + err });
-                            node.error("Service Call Error: " + err);
-                                return;
+                            node.error("Service Call Error: [" + err + "]", msg);
+                            return;
                         }
                             node.status({fill:"green", shape:"dot", text:"SOAP result received"});
                             msg.payload = result;
@@ -57,7 +57,9 @@ module.exports = function (RED) {
                     } else {
                         node.status({fill:"red", shape:"dot", text:"Method does not exist"});
                         node.error("Method does not exist!");
-                    };
+                        msg.payload = "Method [" + node.method + "] does not exist!";
+                        node.send(msg);
+                };
                 });
             });
         } catch (err) {
