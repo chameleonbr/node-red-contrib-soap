@@ -9,38 +9,54 @@ module.exports = function (RED) {
         this.method = n.method;
         this.payload = n.payload;
         var node = this;
+        this.status({});
+
         try {
             node.on('input', function (msg) {
-                soap.createClient(node.server.wsdl, function (err, client) {
+                var server = (msg.server)?{wsdl:msg.server, auth:0}:node.server;
+                var lastFiveChar = server.wsdl.substr(server.wsdl.length-5);
+                if(lastFiveChar !== '?wsdl' && lastFiveChar !== '.wsdl'){
+                    server.wsdl += '?wsdl';
+                };
+                soap.createClient(server.wsdl, msg.options||{}, function (err, client) {
                     if (err) {
-                        throw new Error("WSDL Config Error: " + err);
+                        node.status({fill: "red", shape: "dot", text: "WSDL Config Error: " + err});
+                        node.error("WSDL Config Error: " + err);
+                        return;
                     }
                     switch (node.server.auth) {
                         case '1':
-                            client.setSecurity(new soap.BasicAuthSecurity(node.server.user, node.server.pass));
+                            client.setSecurity(new soap.BasicAuthSecurity(server.user, server.pass));
                             break;
                         case '2':
-                            client.setSecurity(new soap.ClientSSLSecurity(node.server.key, node.server.cert, {}));
+                            client.setSecurity(new soap.ClientSSLSecurity(server.key, server.cert, {}));
                             break;
                         case '3':
-                            client.setSecurity(new soap.WSSecurity(node.server.user, node.server.pass));
+                            client.setSecurity(new soap.WSSecurity(server.user, server.pass));
                             break;
                         case '4':
-                            client.setSecurity(new soap.BearerSecurity(node.server.token));
+                            client.setSecurity(new soap.BearerSecurity(server.token));
                             break;
                     }
-                    node.status({ fill: "green", shape: "dot", text: "SOAP Request..." });
+                    node.status({fill: "yellow", shape: "dot", text: "SOAP Request..."});
+                    if(msg.headers){
+                        client.addSoapHeader(msg.headers);
+                    }
+
+                    if(client.hasOwnProperty(node.method)){
                     client[node.method](msg.payload, function (err, result) {
                         if (err) {
                             node.status({ fill: "red", shape: "dot", text: "Service Call Error: " + err });
                             node.error("Service Call Error: " + err);
-                            msg.payload = "Soap Module Service call error : " + err;
-                            node.send(msg);
+                                return;
                         }
-                        node.status({});
-                        msg.payload = result;
-                        node.send(msg);
+                            node.status({fill:"green", shape:"dot", text:"SOAP result received"});
+                            node.send({payload: result});
                     });
+                    } else {
+                        node.status({fill:"red", shape:"dot", text:"Method does not exist"});
+                        node.error("Method does not exist!");
+                    };
                 });
             });
         } catch (err) {
