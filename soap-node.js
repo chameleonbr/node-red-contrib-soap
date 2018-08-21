@@ -13,6 +13,7 @@ module.exports = function (RED) {
 
         try {
             node.on('input', function (msg) {
+                var method = msg.method || node.method;
                 var server = (msg.server)?{wsdl:msg.server, auth:0}:node.server;
                 var lastFiveChar = server.wsdl.substr(server.wsdl.length-5);
                 if(lastFiveChar !== '?wsdl' && lastFiveChar !== '.wsdl'){
@@ -43,8 +44,8 @@ module.exports = function (RED) {
                         client.addSoapHeader(msg.headers);
                     }
 
-                    if(client.hasOwnProperty(node.method)){
-                    client[node.method](msg.payload, function (err, result) {
+                    if(client.hasOwnProperty(method)){
+                    client[method](msg.payload, function (err, result) {
                         if (err) {
                             node.status({ fill: "red", shape: "dot", text: "Service Call Error: " + err });
                             node.error("Service Call Error: [" + err + "]", msg);
@@ -57,7 +58,7 @@ module.exports = function (RED) {
                     } else {
                         node.status({fill:"red", shape:"dot", text:"Method does not exist"});
                         node.error("Method does not exist!");
-                        msg.payload = "Method [" + node.method + "] does not exist!";
+                        msg.payload = "Method [" + method + "] does not exist!";
                         node.send(msg);
                 };
                 });
