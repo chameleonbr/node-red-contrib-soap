@@ -48,7 +48,7 @@ module.exports = function (RED) {
                     client[method](msg.payload, function (err, result) {
                         if (err) {
                             node.status({ fill: "red", shape: "dot", text: "Service Call Error: " + err });
-                            node.error("Service Call Error: [" + err + "]", msg);
+                            node.error("Service Call Error: [" + err || err.message + "]", msg);
                             return;
                         }
                             node.status({fill:"green", shape:"dot", text:"SOAP result received"});
