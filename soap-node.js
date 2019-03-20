@@ -51,7 +51,8 @@ module.exports = function (RED) {
                             if ((msg && msg.hasOwnProperty("error") && msg.error)) {
                                 node.error("Service Call Error: [" + err + "]", msg);
                             } else {
-                                node.error("Service Call Error: [" + err + "]");
+                                console.log('\nCapturando ERRO no SOAP sem mensagem original de erro\n')
+                                node.error("Service Call Error: [" + err + "]", {});
                             }
                             return;
                         }
