@@ -48,12 +48,11 @@ module.exports = function (RED) {
                     client[method](msg.payload, function (err, result) {
                         if (err) {
                             node.status({ fill: "red", shape: "dot", text: "Service Call Error: " + err });
-                            if ((msg && msg.hasOwnProperty("error") && msg.error)) {
-                                node.error("Service Call Error: [" + err + "]", msg);
-                            } else {
+                            if (!(msg && msg.hasOwnProperty("error") && msg.error)) {
                                 console.log('\nCapturando ERRO no SOAP sem mensagem original de erro\n')
-                                node.error("Service Call Error: [" + err + "]", {});
+                                msg.error = {};
                             }
+                            node.error("Service Call Error: [" + err + "]", msg);
                             return;
                         }
                             node.status({fill:"green", shape:"dot", text:"SOAP result received"});
