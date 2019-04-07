@@ -15,9 +15,9 @@ module.exports = function (RED) {
             node.on('input', function (msg) {
                 var server = (msg.server)?{wsdl:msg.server, auth:0}:node.server;
                 var lastFiveChar = server.wsdl.substr(server.wsdl.length-5);
-                if(lastFiveChar !== '?wsdl'){
+                if(server.wsdl.indexOf("://")>0 && lastFiveChar !== '?wsdl'){
                     server.wsdl += '?wsdl';
-                };
+                }
                 soap.createClient(server.wsdl, msg.options||{}, function (err, client) {
                     if (err) {
                         node.status({fill: "red", shape: "dot", text: "WSDL Config Error: " + err});
@@ -51,7 +51,8 @@ module.exports = function (RED) {
                                 return;
                             }
                             node.status({fill:"green", shape:"dot", text:"SOAP result received"});
-                            node.send({payload: result});
+                            msg.payload = result;
+                            node.send(msg);
                         });
                     } else {
                         node.status({fill:"red", shape:"dot", text:"Method does not exist"});
