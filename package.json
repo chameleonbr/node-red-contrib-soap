@@ -37,7 +37,7 @@
     },
     "homepage": "https://github.com/chameleonbr/node-red-contrib-soap#readme",
     "dependencies": {
-        "soap": "^0.11.4"
+        "soap": "https://github.com/heretse/node-soap.git"
     },
     "maintainers": [
         {

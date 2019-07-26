@@ -1,3 +1,5 @@
+String.prototype.replaceAll = function (search, replacement) { var target = this; return target.split(search).join(replacement); };
+
 module.exports = function (RED) {
     function SoapCall(n) {
         var soap = require('soap');
@@ -28,8 +30,20 @@ module.exports = function (RED) {
                         case '1':
                             client.setSecurity(new soap.BasicAuthSecurity(server.user, server.pass));
                             break;
-                        case '2':
-                            client.setSecurity(new soap.ClientSSLSecurity(server.key, server.cert, {}));
+                        case '2': {
+                            if (typeof server.key === 'string'
+                                && typeof server.cert === 'string'
+                                && server.key.startsWith("-----BEGIN")
+                                && server.cert.startsWith("-----BEGIN")) {
+                                
+                                var keyBuffer = Buffer.from(server.key, 'utf-8');
+                                var certBuffer = Buffer.from(server.cert, 'utf-8');
+                                
+                                client.setSecurity(new soap.ClientSSLSecurity(keyBuffer, certBuffer, {}));
+                            } else {
+                                client.setSecurity(new soap.ClientSSLSecurity(server.key, server.cert, {}));
+                            }
+                        }
                             break;
                         case '3':
                             client.setSecurity(new soap.WSSecurity(server.user, server.pass));
